@@ -7,9 +7,9 @@ const processSchema = new Schema({
     description: { type: String, required: true },
     complainer: { type: String, required: true },
     claimed: { type: String, required: true },
-    lawyer: { type: String, required: true },
+    lawyer: [{ type: Schema.Types.ObjectId, ref: 'Customer', required: false }],
     status: { type: String, required: true, enum: ['pendente de manifestação', 'concluso', 'prazo', 'aguardando audiência'] },
-    creation_date: { type: Date, required: true },
+    creation_date: { type: Date, required: false },
     customer: [{ type: Schema.Types.ObjectId, ref: 'Customer', required: false }],
 });
 

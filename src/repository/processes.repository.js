@@ -5,8 +5,9 @@ class ProcessesRepository {
         this.Process = processModel;
     }
 
-    async get() {
-       const processes = await this.Process.find();
+    async get(search) {
+        const regex = new RegExp(search, 'i');
+       const processes = await this.Process.find({ description: regex });
 
        console.log(processes);
 
@@ -29,14 +30,22 @@ class ProcessesRepository {
         console.log(newProcess);
 
         await newProcess.save();
+
+        console.log('Objeto salvo');
     }
 
-    async updateOne(id) {
+    async updateOne(processId, data) {
+        const updatedProcess = this.Process.findByIdAndUpdate(
+            processId,
+            data,
+            { new: true, useFindAndModify: false },
+            );
 
+        return updatedProcess;
     }
 
     async deleteOne(id) {
-
+        await this.Process.findByIdAndDelete(id);
     }
 
 }
