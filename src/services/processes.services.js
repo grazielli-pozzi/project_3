@@ -11,11 +11,12 @@ class ProcessesService {
     }
 
     async getOne(id) {
-
+        const process = await this.processesRepository.getOne(id);
+        return process;
     }
 
-    async add() {
-
+    async create(processBody) {
+        await this.processesRepository.create(processBody);
     }
 
     async updateOne(id) {
