@@ -9,9 +9,9 @@ router.get('/list', async (req, res, next) => {
     try {
         const { search } = req.query;
 
-        const mappedSearch = search.trim();
+        // const mappedSearch = search.trim();
 
-        const processes = await processesService.get(mappedSearch);
+        const processes = await processesService.get(search);
         
         console.log(processes);
 

@@ -14,13 +14,16 @@ dotenv.config();
 class App {
     constructor() {
         this.app = express();
+        this.app.use(cors({
+            origin: process.env.FRONT_END_URL,
+          }));
         this.mongo = new MongoConnection(process.env.MONGODB_URI);
         this.startMongoConnection();
         this.activateAppMiddlewares();
         this.activateAppRoutes();
 
         this.activateErrorHandling();
-        // this.activateNotFoundRequest();
+        this.activateNotFoundRequest();
 
     }
 

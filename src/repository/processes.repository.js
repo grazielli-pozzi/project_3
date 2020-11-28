@@ -7,7 +7,7 @@ class ProcessesRepository {
 
     async get(search) {
         const regex = new RegExp(search, 'i');
-       const processes = await this.Process.find({ description: regex });
+        const processes = await this.Process.find({ description: regex });
 
        console.log(processes);
 
