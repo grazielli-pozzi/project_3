@@ -1,8 +1,8 @@
 import User from '../models/User';
 
 class AuthRepository {
-    constructor(UserModel) {
-        this.User = UserModel;
+    constructor() {
+        this.User = User.User;
     }
 
    async findUser(cpf) {

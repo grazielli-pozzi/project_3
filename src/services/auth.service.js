@@ -9,20 +9,17 @@ class AuthService {
 
    async register(body) {
        try {
-         this.verifyExistentUser(body);
+            await this.verifyExistentUser(body);
 
-         body.password = PasswordUtils.encrypt(body.password);
+         const newUser = { ...body, password: PasswordUtils.encrypt(body.password) };
 
-         await this.authRepository.saveUser(body);
+         console.log(newUser);
 
+         await this.authRepository.saveUser(newUser);
         
      } catch (error) {
            throw new ApplicationError(error);
        }
-
-    }
-
-    encryptPassword() {
 
     }
 
