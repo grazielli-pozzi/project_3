@@ -11,7 +11,7 @@ class AuthRepository {
     }
 
     async saveUser(body) {
-        const newUser = new User(body);
+        const newUser = new this.User(body);
         await newUser.save();
     }
 

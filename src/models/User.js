@@ -1,5 +1,6 @@
 import mongoose from 'mongoose';
 import joi from 'joi';
+import ApplicationError from '../errors/ApplicationError';
 
 const { Schema } = mongoose;
 
@@ -35,14 +36,31 @@ class UserEntity {
             email: this.email,
             name: this.name,
             lastname: this.lastname,
-            password: this.password
-        });
+            password: this.password,
+        }).options({ abortEarly: false });
 
         const joiValidation = signupUserSchema.validate(req.body);
 
-        if(joiValidation.errors) {
-            console.log(joiValidation.errors.details);
-            return;
+    // validateLogin(req, res, next) {
+    //     const loginUserSchema = joi.object({
+    //         cpf: this.cpf,
+    //         password: this.password
+    //     });
+    
+    // const joiValidation2 = loginUserSchema.validate(req.body);
+
+    console.log(joiValidation);
+
+        if(joiValidation.error) {
+            console.log(joiValidation.error.details);
+
+            const errorObject = joiValidation.error.details.reduce((acc, error) => {
+                acc[error.context.label] = error.message;
+
+                return acc;
+            }, {});
+
+            throw new ApplicationError({ message: errorObject, type: 'Auth-Signup-Error', status: 400 });
         }
         
         return next();

@@ -31,7 +31,6 @@ class AuthService {
             throw new ApplicationError({ message: 'Usuário já cadastrado', type: 'Auth-sigup', status: 400 });
         }
 
-        console.log('Usuário não encontrado');
     }
 
 

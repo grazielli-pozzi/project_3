@@ -7,8 +7,6 @@ class PasswordUtils {
     }
 
     encrypt(textPassword) {
-        // const salt = await this.bcrypt.genSalt(this.saltRounds);
-
         return this.bcrypt.hashSync(textPassword, this.saltRounds);
     }
 }

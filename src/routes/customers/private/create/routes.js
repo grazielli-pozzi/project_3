@@ -1,11 +1,11 @@
 import { Router } from 'express';
-import ApplicationError from '../../../errors/ApplicationError';
-import authService from '../../../services/auth.service';
-import UserEntity from '../../../models/User';
+import ApplicationError from '../../../../errors/ApplicationError';
+import authService from '../../../../services/auth.service';
+import UserEntity from '../../../../models/User';
 
 const router = Router();
 
-router.post('/signup', UserEntity.validateSignup, async (req, res, next) => {
+router.post('/create', UserEntity.validateSignup, async (req, res, next) => {
     try {
         await authService.register(req.body);
 

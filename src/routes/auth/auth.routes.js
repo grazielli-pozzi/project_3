@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import authPublicRoutes from './public/routes.js';
+import authPublicRoutes from './public/routes';
 
 const router = Router();
 
