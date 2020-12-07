@@ -28,7 +28,7 @@ class AuthService {
         
 
         if(user) {
-            throw new ApplicationError({ message: 'Usuário já cadastrado', type: 'Auth-sigup', status: 400 });
+            throw new ApplicationError({ message: 'Usuário já cadastrado', type: 'Auth-signup', status: 400 });
         }
 
     }

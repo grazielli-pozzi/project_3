@@ -41,14 +41,6 @@ class UserEntity {
 
         const joiValidation = signupUserSchema.validate(req.body);
 
-    // validateLogin(req, res, next) {
-    //     const loginUserSchema = joi.object({
-    //         cpf: this.cpf,
-    //         password: this.password
-    //     });
-    
-    // const joiValidation2 = loginUserSchema.validate(req.body);
-
     console.log(joiValidation);
 
         if(joiValidation.error) {
