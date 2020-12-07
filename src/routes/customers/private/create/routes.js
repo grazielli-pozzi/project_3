@@ -16,8 +16,10 @@ router.post('/create', UserEntity.validateSignup, async (req, res, next) => {
     }
 });
 
-router.post('/login', async (req, res, next) => {
+router.post('/login', UserEntity.validateLogin, async (req, res, next) => {
     try {
+
+        await authService.login(req.body);
         return res.status(200).json(req.body);
     } catch (error) {
         return next(new ApplicationError(error));

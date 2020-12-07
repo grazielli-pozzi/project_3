@@ -5,7 +5,7 @@ import ApplicationError from '../errors/ApplicationError';
 const { Schema } = mongoose;
 
 const userSchema = new Schema({
-    cpf: { type: Number, required: true },
+    cpf: { type: String, required: true },
     email: { type: String, required: true },
     name: { type: String, required: true },
     lastname: { type: String, required: true },
@@ -21,13 +21,14 @@ const userModel = mongoose.model('User', userSchema);
 class UserEntity {
     constructor() {
         this.User = userModel;
-        this.cpf = joi.number().required();
+        this.cpf = joi.string().required();
         this.email = joi.string().email().required();
         this.name = joi.string().min(1).max(30).required();
         this.lastname = joi.string().min(1).max(30).required();
         this.password = joi.string().required();
 
         this.validateSignup = this.validateSignup.bind(this);
+        this.validateLogin = this.validateLogin.bind(this);
     }
 
     validateSignup(req, res, next) {
@@ -57,6 +58,34 @@ class UserEntity {
         
         return next();
     }
+
+    validateLogin(req, res, next) {
+        const LoginUserSchema = joi.object({
+            cpf: this.cpf,
+            password: this.password,
+        }).options({ abortEarly: false });
+
+        const joiValidation = LoginUserSchema.validate(req.body);
+
+    console.log(joiValidation);
+
+    if(joiValidation.error) {
+        console.log(joiValidation.error.details);
+
+    const errorObject = joiValidation.error.details.reduce((acc, error) => {
+            acc[error.context.label] = error.message;
+
+        return acc;
+    }, {});
+
+        throw new ApplicationError({ message: errorObject, type: 'Auth-Login-Error', status: 400 });
+    
+    }
+
+    return next();
+
+}
+
 }
 
 export default new UserEntity();
