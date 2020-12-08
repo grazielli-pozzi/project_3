@@ -34,9 +34,17 @@ class AuthService {
 
         const isPasswordCorrect = PasswordUtils.verify(userInformation.password, userFromDb.password);
 
-        if(isPasswordCorrect) {
+        if(!isPasswordCorrect) {
             throw new ApplicationError({ message: 'Informações de login incorretas', type: 'Auth-signup', status: 400 });
         }
+
+        const token = jwt.sign(
+            { id: userFromDb._id },
+            process.env.TOKEN,
+            { expiresIn: '15s' },
+            );
+
+            return token;
 
     }
 
