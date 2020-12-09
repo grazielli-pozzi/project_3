@@ -32,7 +32,8 @@ router.use((req, res, next) => {
 
 router.post('/create', UserEntity.validateSignup, async (req, res, next) => {
     try {
-        await authService.register(req.body);
+        const { id } = req.user;
+        await authService.register(req.body, id);
 
         return res.status(201).json({ message: 'User created' });
     } 

@@ -20,8 +20,8 @@ class ProcessesService {
         return process;
     }
 
-    async create(processBody) {
-        await this.processesRepository.create(processBody);
+    async create(processBody, id) {
+        await this.processesRepository.create(processBody, id);
     }
 
     async updateOne(processId, data) {

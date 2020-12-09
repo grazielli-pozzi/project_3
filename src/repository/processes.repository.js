@@ -24,10 +24,8 @@ class ProcessesRepository {
  
     }
 
-    async create(processBody) {
-        const newProcess = new this.Process(processBody);
-
-        console.log(newProcess);
+    async create(processBody, id) {
+        const newProcess = new this.Process({ ...processBody, customer: id });
 
         await newProcess.save();
 

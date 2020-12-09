@@ -63,8 +63,9 @@ router.get('/list/:id', async (req, res, next) => {
 
 router.post('/create', async (req, res, next) => {
     try {
+        const { id } = req.user;
         const processBody = req.body;
-        await processesService.create(processBody);
+        await processesService.create(processBody, id);
 
         return res.status(201).json({ message: 'Process created!' });
 

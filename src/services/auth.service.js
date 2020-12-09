@@ -9,11 +9,11 @@ class AuthService {
         this.authRepository = authRepo;
     }
 
-   async register(body) {
+   async register(body, id) {
        try {
             await this.verifyExistentUser(body);
 
-         const newUser = { ...body, password: PasswordUtils.encrypt(body.password) };
+         const newUser = { ...body, password: PasswordUtils.encrypt(body.password), customer: id };
 
          await this.authRepository.saveUser(newUser);
         

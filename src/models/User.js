@@ -26,6 +26,7 @@ class UserEntity {
         this.name = joi.string().min(1).max(30).required();
         this.lastname = joi.string().min(1).max(30).required();
         this.password = joi.string().required();
+        this.role = joi.string();
 
         this.validateSignup = this.validateSignup.bind(this);
         this.validateLogin = this.validateLogin.bind(this);
@@ -59,6 +60,7 @@ class UserEntity {
     validateLogin(req, res, next) {
         const LoginUserSchema = joi.object({
             cpf: this.cpf,
+            role: this.role,
             password: this.password,
         }).options({ abortEarly: false });
 
