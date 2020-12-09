@@ -10,7 +10,7 @@ const userSchema = new Schema({
     name: { type: String, required: true },
     lastname: { type: String, required: true },
     password: { type: String, required: true },
-    role: { type: String, enum: ['advogado', 'cliente'], required: false },
+    role: { type: String, enum: ['advogado', 'cliente'], required: false, default: 'cliente' },
     processes: [{ type: Schema.Types.ObjectId, ref: 'Process', required: false }],
 }, {
     timestamps: true,
@@ -42,10 +42,7 @@ class UserEntity {
 
         const joiValidation = signupUserSchema.validate(req.body);
 
-    console.log(joiValidation);
-
         if(joiValidation.error) {
-            console.log(joiValidation.error.details);
 
             const errorObject = joiValidation.error.details.reduce((acc, error) => {
                 acc[error.context.label] = error.message;
@@ -66,8 +63,6 @@ class UserEntity {
         }).options({ abortEarly: false });
 
         const joiValidation = LoginUserSchema.validate(req.body);
-
-    console.log(joiValidation);
 
     if(joiValidation.error) {
         console.log(joiValidation.error.details);

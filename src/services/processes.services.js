@@ -6,9 +6,9 @@ class ProcessesService {
         this.processesRepository = processRepository;
     }
 
-    async get(search) {
+    async get(id, search) {
         try {
-            const processes = await this.processesRepository.get(search);
+            const processes = await this.processesRepository.get(id, search);
             return processes;
         } catch (error) {
             throw new ApplicationError({ message: error.message, type: 'Processes - get method', status: 502 });

@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import createClient from './private/create/routes';
+import createClient from './private/routes';
 
 const router = Router();
 

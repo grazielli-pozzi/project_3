@@ -5,13 +5,11 @@ import UserEntity from '../../../models/User';
 
 const router = Router();
 
-router.post('/signup', UserEntity.validateSignup, async (req, res, next) => {
+router.post('/login', UserEntity.validateLogin, async (req, res, next) => {
     try {
-        await authService.register(req.body);
-
-        return res.status(201).json({ message: 'User created' });
-    } 
-    catch (error) {
+        const loggedInfo = await authService.login(req.body);
+        return res.status(200).json(loggedInfo);
+    } catch (error) {
         return next(new ApplicationError(error));
     }
 });

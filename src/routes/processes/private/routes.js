@@ -2,18 +2,42 @@ import { Router } from 'express';
 
 import ProcessesMapper from '../../../mapper/processes.mapper';
 import processesService from '../../../services/processes.services';
+import authToken from '../../../utils/authTolken.utils';
+import ApplicationError from '../../../errors/ApplicationError';
 
 const router = Router();
 
+router.use((req, res, next) => {
+    const token = req.get('Authorization');
+    console.log(token);
+    console.log('teste');
+
+    if(!token) {
+        throw new ApplicationError({ message: 'Missing Credentials', type: 'Auth-Token-Missing', status: 401 });
+    }
+
+    const tokenWithoutBearer = token.split(' ')[1];
+    
+    let decodedToken;
+
+    try {
+        decodedToken = authToken.verify(tokenWithoutBearer);
+    } catch (error) {
+        throw new ApplicationError({ message: 'Token expired', type: 'Auth-Token-Expired', status: 401 });
+    }
+
+    req.user = { id: decodedToken.id };
+
+    return next();
+});
+
 router.get('/list', async (req, res, next) => {
     try {
+        const { id } = req.user;
+        console.log(req.user);
         const { search } = req.query;
 
-        // const mappedSearch = search.trim();
-
-        const processes = await processesService.get(search);
-        
-        console.log(processes);
+        const processes = await processesService.get(id, search);
 
         return res.status(200).json(processes);
     } catch (error) {

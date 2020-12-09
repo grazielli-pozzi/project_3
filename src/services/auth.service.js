@@ -15,8 +15,6 @@ class AuthService {
 
          const newUser = { ...body, password: PasswordUtils.encrypt(body.password) };
 
-         console.log(newUser);
-
          await this.authRepository.saveUser(newUser);
         
      } catch (error) {
@@ -41,10 +39,10 @@ class AuthService {
         const token = jwt.sign(
             { id: userFromDb._id },
             process.env.TOKEN,
-            { expiresIn: '15s' },
+            { expiresIn: '180s' },
             );
 
-            return token;
+            return { token: token, role: userFromDb.role };
 
     }
 
