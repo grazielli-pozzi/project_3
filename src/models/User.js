@@ -39,6 +39,7 @@ class UserEntity {
             name: this.name,
             lastname: this.lastname,
             password: this.password,
+            role: this.role,
         }).options({ abortEarly: false });
 
         const joiValidation = signupUserSchema.validate(req.body);
