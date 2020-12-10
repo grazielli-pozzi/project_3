@@ -42,6 +42,4 @@ router.post('/create', UserEntity.validateSignup, async (req, res, next) => {
     }
 });
 
-
-
 export default router;

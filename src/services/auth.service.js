@@ -25,6 +25,7 @@ class AuthService {
 
     async login(userInformation) {
         const userFromDb = await this.authRepository.findUser(userInformation.cpf);
+        console.log(userFromDb);
 
         if(!userFromDb) {
             throw new ApplicationError({ message: 'Usuário não encontrado', type: 'Auth-login-user-not-found', status: 400 });

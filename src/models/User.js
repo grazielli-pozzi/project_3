@@ -10,7 +10,7 @@ const userSchema = new Schema({
     name: { type: String, required: true },
     lastname: { type: String, required: true },
     password: { type: String, required: true },
-    role: { type: String, enum: ['advogado', 'cliente'], required: false, default: 'cliente' },
+    role: { type: String, enum: ['advogado', 'cliente'], required: true, default: 'cliente' },
     processes: [{ type: Schema.Types.ObjectId, ref: 'Process', required: false }],
 }, {
     timestamps: true,
@@ -26,7 +26,7 @@ class UserEntity {
         this.name = joi.string().min(1).max(30).required();
         this.lastname = joi.string().min(1).max(30).required();
         this.password = joi.string().required();
-        this.role = joi.string();
+        this.role = joi.string().required();
 
         this.validateSignup = this.validateSignup.bind(this);
         this.validateLogin = this.validateLogin.bind(this);
@@ -61,7 +61,6 @@ class UserEntity {
     validateLogin(req, res, next) {
         const LoginUserSchema = joi.object({
             cpf: this.cpf,
-            role: this.role,
             password: this.password,
         }).options({ abortEarly: false });
 
