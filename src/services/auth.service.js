@@ -38,7 +38,7 @@ class AuthService {
         }
 
         const token = jwt.sign(
-            { id: userFromDb._id },
+            { id: userFromDb._id, role: userFromDb.role },
             process.env.TOKEN,
             { expiresIn: '180s' },
             );

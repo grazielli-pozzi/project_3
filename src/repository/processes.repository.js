@@ -49,4 +49,3 @@ class ProcessesRepository {
 }
 
 export default new ProcessesRepository(Process);
-
