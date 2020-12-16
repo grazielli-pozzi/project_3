@@ -1,16 +1,15 @@
 import { Router } from 'express';
 
-import ProcessesMapper from '../../../mapper/processes.mapper';
-import processesService from '../../../services/processes.services';
-import authToken from '../../../utils/authTolken.utils';
-import ApplicationError from '../../../errors/ApplicationError';
+import ProcessesMapper from '../../../../mapper/processes.mapper';
+import processesService from '../../../../services/processes.services';
+import authToken from '../../../../utils/authTolken.utils';
+import ApplicationError from '../../../../errors/ApplicationError';
 
 const router = Router();
 
 router.use((req, res, next) => {
     const token = req.get('Authorization');
     console.log(token);
-    console.log('teste');
 
     if(!token) {
         throw new ApplicationError({ message: 'Missing Credentials', type: 'Auth-Token-Missing', status: 401 });
@@ -38,10 +37,12 @@ router.use((req, res, next) => {
 router.get('/list', async (req, res, next) => {
     try {
         const { id } = req.user;
+        const { id2 } = req.user;
         console.log(req.user);
         const { search } = req.query;
 
-        const processes = await processesService.get(id, search);
+        const processes = await processesService.get(id, id2, search);
+        console.log(processes);
 
         return res.status(200).json(processes);
     } catch (error) {

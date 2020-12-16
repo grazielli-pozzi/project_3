@@ -5,9 +5,9 @@ class ProcessesRepository {
         this.Process = processModel;
     }
 
-    async get(id, search) {
+    async get(id, id2, search) {
         const regex = new RegExp(search, 'i');
-        const processes = await this.Process.find({ description: regex, customer: id });
+        const processes = await this.Process.find({ description: regex, customer: id, lawyer: id2 });
 
        console.log(processes);
 
@@ -24,8 +24,8 @@ class ProcessesRepository {
  
     }
 
-    async create(processBody, id) {
-        const newProcess = new this.Process({ ...processBody, customer: id });
+    async create(processBody, id, id2) {
+        const newProcess = new this.Process({ ...processBody, customer: id, lawyer: id2 });
 
         await newProcess.save();
 

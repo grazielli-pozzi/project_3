@@ -9,11 +9,12 @@ class AuthService {
         this.authRepository = authRepo;
     }
 
-   async register(body, id) {
+   async register(body, id, id2) {
        try {
             await this.verifyExistentUser(body);
 
-         const newUser = { ...body, password: PasswordUtils.encrypt(body.password), customer: id };
+         const newUser = { ...body, password: PasswordUtils.encrypt(body.password), 
+            customer: id, lawyer: id2 };
 
          await this.authRepository.saveUser(newUser);
         
@@ -40,7 +41,7 @@ class AuthService {
         const token = jwt.sign(
             { id: userFromDb._id, role: userFromDb.role },
             process.env.TOKEN,
-            { expiresIn: '60s' },
+            { expiresIn: '180s' },
             );
 
             return { token: token, role: userFromDb.role };
