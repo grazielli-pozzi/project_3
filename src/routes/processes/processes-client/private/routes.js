@@ -24,8 +24,8 @@ router.use((req, res, next) => {
         throw new ApplicationError({ message: 'Token expired', type: 'Auth-Token-Expired', status: 401 });
     }
 
-    if(decodedToken.role !== 'advogado') {
-        throw new ApplicationError({ message: 'Insuficient credentials', type: 'Auth-Token-Role', status: 401 });
+    if(decodedToken.role !== 'cliente') {
+        throw new ApplicationError({ message: 'Insufficient credentials', type: 'Auth-Token-Role', status: 401 });
     }
 
     req.user = { id: decodedToken.id };

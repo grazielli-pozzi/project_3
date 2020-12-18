@@ -26,7 +26,7 @@ router.use((req, res, next) => {
     }
 
     if(decodedToken.role !== 'advogado') {
-        throw new ApplicationError({ message: 'Insuficient credentials', type: 'Auth-Token-Role', status: 401 });
+        throw new ApplicationError({ message: 'Insufficient credentials', type: 'Auth-Token-Role', status: 401 });
     }
 
     req.user = { id: decodedToken.id };
@@ -37,11 +37,10 @@ router.use((req, res, next) => {
 router.get('/list', async (req, res, next) => {
     try {
         const { id } = req.user;
-        const { id2 } = req.user;
         console.log(req.user);
         const { search } = req.query;
 
-        const processes = await processesService.get(id, id2, search);
+        const processes = await processesService.get(id, search);
         console.log(processes);
 
         return res.status(200).json(processes);
@@ -70,6 +69,7 @@ router.post('/create', async (req, res, next) => {
     try {
         const { id } = req.user;
         const processBody = req.body;
+        console.log(processBody);
         await processesService.create(processBody, id);
 
         return res.status(201).json({ message: 'Process created!' });

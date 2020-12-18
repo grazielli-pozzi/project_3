@@ -1,13 +1,26 @@
 import Process from '../models/Process';
+import User from '../models/User';
+import ApplicationError from '../errors/ApplicationError';
 
 class ProcessesRepository {
-    constructor(processModel) {
+    constructor(processModel, userModel) {
         this.Process = processModel;
+        this.User = userModel;
     }
 
-    async get(id, id2, search) {
+    async get(id, search) {
         const regex = new RegExp(search, 'i');
-        const processes = await this.Process.find({ description: regex, customer: id, lawyer: id2 });
+        const processes = await this.Process.find({ description: regex, lawyer: id });
+
+       console.log(processes);
+
+       return processes;
+
+    }
+
+    async getByCustomerID(id, search) {
+        const regex = new RegExp(search, 'i');
+        const processes = await this.Process.find({ description: regex, customer: id });
 
        console.log(processes);
 
@@ -24,13 +37,18 @@ class ProcessesRepository {
  
     }
 
-    async create(processBody, id, id2) {
-        const newProcess = new this.Process({ ...processBody, customer: id, lawyer: id2 });
+    async create(processBody, id) {
+        const registeredClient = await this.User.findOne({ cpf: processBody.customer, role: 'cliente' });
 
-        await newProcess.save();
+        if(registeredClient) {
+            const newProcess = new this.Process({ ...processBody, lawyer: id });
+    
+            await newProcess.save();
 
-        console.log('Objeto salvo');
-    }
+        }
+        throw new ApplicationError({ message: 'Cliente não cadastrado', type: 'Client-Not-Registered', status: 401 });
+        }
+
 
     async updateOne(processId, data) {
         const updatedProcess = this.Process.findByIdAndUpdate(
@@ -48,4 +66,4 @@ class ProcessesRepository {
 
 }
 
-export default new ProcessesRepository(Process);
+export default new ProcessesRepository(Process, User.User);

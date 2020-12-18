@@ -6,9 +6,18 @@ class ProcessesService {
         this.processesRepository = processRepository;
     }
 
-    async get(id, id2, search) {
+    async get(id, search) {
         try {
-            const processes = await this.processesRepository.get(id, id2, search);
+            const processes = await this.processesRepository.get(id, search);
+            return processes;
+        } catch (error) {
+            throw new ApplicationError({ message: error.message, type: 'Processes - get method', status: 502 });
+        }
+    }
+
+    async getByCustomerID(id, search) {
+        try {
+            const processes = await this.processesRepository.getByCustomerID(id, search);
             return processes;
         } catch (error) {
             throw new ApplicationError({ message: error.message, type: 'Processes - get method', status: 502 });
@@ -20,8 +29,8 @@ class ProcessesService {
         return process;
     }
 
-    async create(processBody, id, id2) {
-        await this.processesRepository.create(processBody, id, id2);
+    async create(processBody, id) {
+        await this.processesRepository.create(processBody, id);
     }
 
     async updateOne(processId, data) {
